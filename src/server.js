@@ -25,7 +25,7 @@ var requestTokenUrl = "https://api.twitter.com/oauth/request_token";
 var consumerKey = process.env.TWITTER_CLIENT_ID;
 var consumerSecret = process.env.TWITTER_CLIENT_SECRET;
 var oauth = {
-    callback: 'http://localhost:3000/signin-with-twitter',
+    callback: process.env.BASE_URL + "/signin-with-twitter",
     consumer_key: consumerKey,
     consumer_secret: consumerSecret
 };
