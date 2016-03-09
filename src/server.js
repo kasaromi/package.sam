@@ -30,7 +30,7 @@ function getRequestToken(options, cb) {
 }
 
 function createTwitterAuthRoute(token){
-    console.log(process.env.TWITTER_CLIENT_ID);
+    console.log(token);
     return "https://api.twitter.com/oauth/authenticate?" + querystring.stringify({
         oauth_token: token,
         redirect_uri: process.env.BASE_URL + "/home"
@@ -41,7 +41,7 @@ var requestTokenUrl = "https://api.twitter.com/oauth/request_token";
 var consumerKey = process.env.TWITTER_CLIENT_ID;
 var consumerSecret = process.env.TWITTER_CLIENT_SECRET;
 var oauth = {
-    callback: 'http://localhost:3000/signin-with-twitter',
+    // callback: 'http://localhost:3000/signin-with-twitter',
     consumer_key: consumerKey,
     consumer_secret: consumerSecret
 };
@@ -64,6 +64,7 @@ server.route([
                 var uri = 'https://api.twitter.com/oauth/authenticate?' + querystring.stringify({oauth_token: oauthToken});
                 var requestToken = uri.split('=')[1];
                 reply.redirect(createTwitterAuthRoute(requestToken));
+                // reply(uri);
             });
         }
     }, {
