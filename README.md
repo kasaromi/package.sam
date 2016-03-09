@@ -21,12 +21,13 @@ We create a user session, storing a JWT (so that the naked access token isn't be
 * [url](https://nodejs.org/api/url.html) and [querystring](https://nodejs.org/api/querystring.html) for easy parsing of requests
 * [hapi](http://hapijs.com/) as our node framework
 * [handlebars](handlebarsjs.com) for modularizing the code
+* [Sass](http://sass-lang.com/documentation/file.SASS_REFERENCE.html) for our CSS framework
 
 ### What will be sent where
 
-An ajax request will be sent from the front to the server in the form: '/date=d&username=user&tweet=tw'
+When the user has logged in, we will load the last 5 tweets from package.sam, these will be fetched by the server and sent to the front-end in the form: '/date=d&tweet=tw'
 
-tbc tomorrow...
+When a user tweets to @package.sam, an ajax request will be sent from the front-end to the server in the form: '/date=d&username=user&tweet=tw', we should then display a message saying, your tweet has been sent.
 
 ### This is what our application is going to look like:
 
