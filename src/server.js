@@ -10,15 +10,16 @@ function createTwitterAuthRoute(){
 
 server.connection({
     port: port
-})
+});
 
 server.route([
     {
         path: '/',
         method: 'GET',
         handler: function(req, reply){
-            reply.redirect(createTwitterAuthRoute())
+            reply.redirect(createTwitterAuthRoute());
         }
-    }]);
+    }
+]);
 
 module.exports = server;
