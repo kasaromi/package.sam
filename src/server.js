@@ -51,13 +51,12 @@ server.register(plugins, function(err) {
             method: 'GET',
             handler: function(req, reply){
                 request.post({url: requestTokenUrl, oauth: oauth}, function(err, r, body) {
-                    console.log(err, r);
                     var reqData = querystring.parse(body);
+                    console.log(reqData, 'reqdata!!!!');
                     oauthToken = reqData.oauth_token;
                     oauthTokenSecret = reqData.oauth_token_secret;
+                    console.log(oauthToken, oauthTokenSecret, 'other stufffff');
                     var uri = 'https://api.twitter.com/oauth/authenticate?' + querystring.stringify({oauth_token: oauthToken});
-                    console.log(uri);
-                    // var requestToken = uri.split('=')[1];
                     reply.view('login', {uri:uri});
                 });
             }
@@ -74,8 +73,9 @@ server.register(plugins, function(err) {
 
                 request.post({url: accessTokenUrl, oauth: oauth}, function(e, r, body) {
                     var authenticatedData = querystring.parse(body);
-                    // console.log(authenticatedData, '-------------', body);
-                    reply(authenticatedData);
+                    // not 100% sure what we need here right now, so I redirected to home for now
+                    // we should figure out json web tokens first!
+                    reply.redirect('home');
                 });
             }
         },
@@ -83,8 +83,7 @@ server.register(plugins, function(err) {
             path: '/home',
             method: 'GET',
             handler: function(req, reply){
-                // var home = __dirname + "/../"
-                reply("hey Mireia");
+                reply.view('home');
             }
         }
     ]);
