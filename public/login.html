@@ -17,6 +17,20 @@
 
             </div><!-- end footer container -->
         </div> <!-- end div container-login -->
+        <script type="text/javascript">
+            var token = document.cookie.split('=')[1];
+            document.getElementById('login-button').addEventListener('click', function(el) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200)
+                        console.log(xhr.responseText);
+                }
+            }
 
+                xhr.open("GET", "/getData");
+                xhr.setRequestHeader("Authorization", token);
+                xhr.send();
+            })
+        </script>
     </body>
 </html>
