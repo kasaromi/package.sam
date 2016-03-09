@@ -29,8 +29,7 @@ server.route([
         path: '/',
         method: 'GET',
         handler: function(req, reply){
-            reply.redirect(createTwitterAuthRoute());
-        }
+            reply.redirect(createTwitterAuthRoute());        }
     }, {
         path: '/home',
         method: 'GET',
