@@ -1,32 +1,33 @@
 {
-    "name": "package.sam",
-    "version": "1.0.0",
-    "description": "## Who?",
-    "main": "index.js",
-    "dependencies": {
-        "env2": "^2.0.6",
-        "handlebars": "^4.0.5",
-        "hapi": "^13.0.0",
-        "inert": "^3.2.0"
-    },
-    "devDependencies": {
-        "istanbul": "^0.4.2",
-        "tape": "^4.5.1"
-    },
-    "scripts": {
-        "run": "nodemon src/server.js",
-        "start": "nodemon src/index.js",
-        "test": "tape test/test.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/kasaromi/package.sam.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/kasaromi/package.sam/issues"
-    },
-    "homepage": "https://github.com/kasaromi/package.sam#readme"
+  "name": "package.sam",
+  "version": "1.0.0",
+  "description": "## Who?",
+  "main": "index.js",
+  "dependencies": {
+    "env2": "^2.0.6",
+    "handlebars": "^4.0.5",
+    "hapi": "^13.0.0",
+    "inert": "^3.2.0",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.2",
+    "tape": "^4.5.1"
+  },
+  "scripts": {
+    "run": "nodemon src/server.js",
+    "start": "nodemon src/index.js",
+    "test": "tape test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasaromi/package.sam.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kasaromi/package.sam/issues"
+  },
+  "homepage": "https://github.com/kasaromi/package.sam#readme"
 }
