@@ -85,7 +85,18 @@ server.register(plugins, function(err) {
             handler: function(req, reply){
                 reply.view('home');
             }
-        }
+        },
+        {
+        method: 'GET',
+        path: '/{param*}',
+        handler: {
+            directory: {
+                path: 'public',
+                redirectToSlash: true,
+                index: true
+            }
+          }
+       }
     ]);
 
 });

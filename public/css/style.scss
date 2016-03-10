@@ -1,3 +1,37 @@
+body {
+	background-color: #FFFFFF;
+}
+
+/* STYLE FOR /HOME.HTML */
+.tweet-box {
+	width: 50%;
+	max-width: 650px;
+	min-width: 200px;
+	margin: 0 auto;
+	padding: 4.9em;
+}
+
+.sam-tweet {
+	width: 50%;
+    max-width: 650px;
+    min-width: 200px;
+    margin: 0 auto;
+    padding: 4.9em;
+}
+
+/* FOOTER */
+.footer {
+   background: red;
+   padding   : 2em;
+   margin-top: 2.5em;
+
+  p {
+       display: inline-block;
+     }
+   }
+
+/* END STYLE /HOME.HTML */
+
 /* START RESP GRID SYSTEM */
 /*  SECTIONS  */
 .container {
@@ -31,7 +65,3 @@
 	.span_3_of_3, .span_2_of_3, .span_1_of_3 { width: 100%; }
 }
 /* END RESP GRID SYSTEM */
-
-body {
-	background-color: rgb(67, 217, 208);
-}
