@@ -25,7 +25,7 @@ var packageSamResponses = [
     'Oooooh look at this useful package!!',
     'May the package be with you',
     'Do not cry because it is over, smile because it is a package.',
-    'So many books, so little packages.'    
+    'So many books, so little packages.'
 ];
 
 
@@ -112,10 +112,10 @@ server.register(plugins, function(err) {
                 client.stream('statuses/filter', {track: 'PackageSam'}, function(stream) {
                     stream.on('data', function(tweet) {
                         client.post('statuses/update', {status: samReply}, function(error, tweet, response) {
-                        if (error) throw error;
-                        console.log(tweet); // Tweet body.
-                        console.log(response); // Raw response object.
-                    });
+                            if (error) throw error;
+                            console.log(tweet); // Tweet body.
+                            console.log(response); // Raw response object.
+                        });
                     });
 
                     stream.on('error', function(error) {
