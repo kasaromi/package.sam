@@ -20,7 +20,10 @@ body {
 }
 
 /* FOOTER */
-.footer {
+footer, .container-login:after, .container-home:after {
+
+}
+footer {
    background: red;
    padding   : 2em;
    margin-top: 2.5em;
@@ -34,7 +37,7 @@ body {
 
 /* START RESP GRID SYSTEM */
 /*  SECTIONS  */
-.container {
+.container-login, .container-home {
 	clear: both;
 	padding: 0px;
 	margin: 0px;
