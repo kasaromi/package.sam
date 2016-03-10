@@ -10,7 +10,7 @@ tape('/ endpoint redirect to twitter login', function(t) {
     };
 
     server.inject(options, function(response) {
-        console.log(response.path);
+        console.log('()()())()()()', response);
         t.ok(response.statusCode, 302, 'server redirects');
         t.end();
     });
