@@ -55,7 +55,6 @@ server.register(plugins, function(err) {
                 console.log(req.url.path, '1^^^^^^^^^^^');
                 request.post({url: requestTokenUrl, oauth: oauth}, function(err, r, body) {
                     var reqData = querystring.parse(body);
-                    // console.log(reqData, 'reqdata!!!!');
                     oauthToken = reqData.oauth_token;
                     // var superSecret = jwt.sign(secret, oauthToken);
                     oauthTokenSecret = reqData.oauth_token_secret;
@@ -64,7 +63,8 @@ server.register(plugins, function(err) {
                     reply.view('login', {uri:uri}).state('access_token', oauthToken);
                 });
             }
-        }, {
+        },
+        {
             path: '/signin-with-twitter',
             method: 'GET',
             handler: function(req, reply) {
@@ -95,18 +95,17 @@ server.register(plugins, function(err) {
             }
         },
         {
-        method: 'GET',
-        path: '/{param*}',
-        handler: {
-            directory: {
-                path: 'public',
-                redirectToSlash: true,
-                index: true
+            method: 'GET',
+            path: '/{param*}',
+            handler: {
+                directory: {
+                    path: 'public',
+                    redirectToSlash: true,
+                    index: true
+                }
             }
-          }
        }
     ]);
-
 });
 
 
