@@ -10,22 +10,22 @@ var inert = require('inert');
 var jwt = require('jsonwebtoken');
 var secret = process.env.JWT_SECRET;
 var plugins = [inert, vision];
+var Twitter = require('twitter');
 
 var server = new Hapi.Server();
 
 var port = process.env.PORT || 3000;
 
-function createTwitterAuthRoute(token){
-    console.log(token);
-    return "https://api.twitter.com/oauth/authenticate?" + querystring.stringify({
-        oauth_token: token,
-        redirect_uri: process.env.BASE_URL + "/home"
-    });
-}
+var client = new Twitter({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+});
 
 var requestTokenUrl = "https://api.twitter.com/oauth/request_token";
-var consumerKey = process.env.TWITTER_CLIENT_ID;
-var consumerSecret = process.env.TWITTER_CLIENT_SECRET;
+var consumerKey = process.env.TWITTER_CONSUMER_KEY;
+var consumerSecret = process.env.TWITTER_CONSUMER_SECRET;
 var oauth = {
     callback: process.env.BASE_URL + "/signin-with-twitter",
     consumer_key: consumerKey,
@@ -90,10 +90,34 @@ server.register(plugins, function(err) {
             path: '/home',
             method: 'GET',
             handler: function(req, reply){
-                console.log(req.url.path, '3^^^^^^^^^^^');
+                client.stream('statuses/filter', {track: 'PackageSam'}, function(stream) {
+                    stream.on('data', function(tweet) {
+                        client.post('statuses/update', {status: 'Can I see your package?'}, function(error, tweet, response) {
+                        if (error) throw error;
+                        console.log(tweet); // Tweet body.
+                        console.log(response); // Raw response object.
+                    });
+                    });
+
+                    stream.on('error', function(error) {
+                        throw error;
+                    });
+                });
                 reply.view('home');
             }
         },
+        // {
+        //     path: '/send-tweet',
+        //     method: 'GET',
+        //     handler: function(req, reply) {
+        //         client.post('statuses/update', {status: 'I Love Twitter'}, function(error, tweet, response) {
+        //             if (error) throw error;
+        //             console.log(tweet); // Tweet body.
+        //             console.log(response); // Raw response object.
+        //             reply('hi');
+        //         });
+        //     }
+        // },
         {
             method: 'GET',
             path: '/{param*}',
