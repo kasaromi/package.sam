@@ -1,5 +1,6 @@
 var Hapi = require('hapi');
 var http = require('https');
+var Twitter = require('twitter');
 var request = require('request');
 // var url = require('url');
 var querystring = require('querystring');
@@ -17,6 +18,7 @@ var server = new Hapi.Server();
 var port = process.env.PORT || 3000;
 
 var client = new Twitter({
+
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
     access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
@@ -26,11 +28,13 @@ var client = new Twitter({
 var requestTokenUrl = "https://api.twitter.com/oauth/request_token";
 var consumerKey = process.env.TWITTER_CONSUMER_KEY;
 var consumerSecret = process.env.TWITTER_CONSUMER_SECRET;
+
 var oauth = {
     callback: process.env.BASE_URL + "/signin-with-twitter",
     consumer_key: consumerKey,
     consumer_secret: consumerSecret
 };
+
 var oauthToken = '';
 var oauthTokenSecret = '';
 
@@ -52,23 +56,28 @@ server.register(plugins, function(err) {
             path: '/',
             method: 'GET',
             handler: function(req, reply){
-                console.log(req.url.path, '1^^^^^^^^^^^');
-                request.post({url: requestTokenUrl, oauth: oauth}, function(err, r, body) {
-                    var reqData = querystring.parse(body);
-                    oauthToken = reqData.oauth_token;
-                    // var superSecret = jwt.sign(secret, oauthToken);
-                    oauthTokenSecret = reqData.oauth_token_secret;
-                    // console.log(oauthToken, oauthTokenSecret, 'other stufffff');
-                    var uri = 'https://api.twitter.com/oauth/authenticate?' + querystring.stringify({oauth_token: oauthToken});
-                    reply.view('login', {uri:uri}).state('access_token', oauthToken);
-                });
+                if (!(req.state.request_token && req.state.access_token)) {
+                    // console.log(req.state.access_token, "access_token number 1");
+                    request.post({url: requestTokenUrl, oauth: oauth}, function(err, r, body) {
+                        var reqData = querystring.parse(body);
+                        oauthToken = reqData.oauth_token;
+                        oauthTokenSecret = reqData.oauth_token_secret;
+                        var uri = 'https://api.twitter.com/oauth/authenticate?' + 'oauth_token='+oauthToken;
+                        //querystring.stringify({oauth_token: oauthToken});
+                        reply.view('login', {uri:uri}).state('request_token', oauthToken);
+                    });
+                }
+                else{
+                    console.log("boomtastic");
+                    reply.redirect('home');
+                }
             }
         },
         {
             path: '/signin-with-twitter',
             method: 'GET',
             handler: function(req, reply) {
-                console.log(req.url.path, '2^^^^^^^^^^^');
+                console.log(req.state.request_token, "request_token number 2");
                 var authReqData = req.query;
                 oauth.token = authReqData.oauth_token;
                 oauth.token_secret = oauthTokenSecret;
@@ -77,12 +86,13 @@ server.register(plugins, function(err) {
                 var accessTokenUrl = "https://api.twitter.com/oauth/access_token";
                 request.post({url: accessTokenUrl, oauth: oauth}, function(e, r, body) {
                     var authenticatedData = querystring.parse(body);
-                    console.log(authenticatedData.oauth_token, authenticatedData.oauth_token_secret, '$$$$$$$$$$');
+                    console.log(authenticatedData);
+                    // console.log(authenticatedData.oauth_token, authenticatedData.oauth_token_secret, '$$$$$$$$$$');
 
                     // not 100% sure what we need here right now, so I redirected to home for now
                     // we should figure out json web tokens first!
-                    reply.redirect('home');
-                    // .state('access_token', );
+                    var accessToken = authenticatedData.oauth_token;
+                    reply.redirect('home').state('access_token', accessToken);
                 });
             }
         },
