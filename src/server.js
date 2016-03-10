@@ -7,6 +7,8 @@ require('env2')('config.env');
 var handlebars = require('handlebars');
 var vision = require('vision');
 var inert = require('inert');
+var jwt = require('jsonwebtoken');
+var secret = process.env.JWT_SECRET;
 var plugins = [inert, vision];
 
 var server = new Hapi.Server();
@@ -50,12 +52,15 @@ server.register(plugins, function(err) {
             path: '/',
             method: 'GET',
             handler: function(req, reply){
+                console.log(req.url.path, '1^^^^^^^^^^^');
                 request.post({url: requestTokenUrl, oauth: oauth}, function(err, r, body) {
                     var reqData = querystring.parse(body);
                     oauthToken = reqData.oauth_token;
+                    // var superSecret = jwt.sign(secret, oauthToken);
                     oauthTokenSecret = reqData.oauth_token_secret;
+                    // console.log(oauthToken, oauthTokenSecret, 'other stufffff');
                     var uri = 'https://api.twitter.com/oauth/authenticate?' + querystring.stringify({oauth_token: oauthToken});
-                    reply.view('login', {uri:uri});
+                    reply.view('login', {uri:uri}).state('access_token', oauthToken);
                 });
             }
         },
@@ -63,18 +68,21 @@ server.register(plugins, function(err) {
             path: '/signin-with-twitter',
             method: 'GET',
             handler: function(req, reply) {
+                console.log(req.url.path, '2^^^^^^^^^^^');
                 var authReqData = req.query;
                 oauth.token = authReqData.oauth_token;
                 oauth.token_secret = oauthTokenSecret;
                 oauth.verifier = authReqData.oauth_verifier;
-
+                // console.log(oauth);
                 var accessTokenUrl = "https://api.twitter.com/oauth/access_token";
-
                 request.post({url: accessTokenUrl, oauth: oauth}, function(e, r, body) {
                     var authenticatedData = querystring.parse(body);
+                    console.log(authenticatedData.oauth_token, authenticatedData.oauth_token_secret, '$$$$$$$$$$');
+
                     // not 100% sure what we need here right now, so I redirected to home for now
                     // we should figure out json web tokens first!
                     reply.redirect('home');
+                    // .state('access_token', );
                 });
             }
         },
@@ -82,6 +90,7 @@ server.register(plugins, function(err) {
             path: '/home',
             method: 'GET',
             handler: function(req, reply){
+                console.log(req.url.path, '3^^^^^^^^^^^');
                 reply.view('home');
             }
         },
