@@ -16,8 +16,18 @@ var packageSamResponses = [
     'So many books, so little packages.'
 ];
 
+var previousRandomNum;
+var samReply = function(arrayOfResponses) {
+    var randomNumber = Math.floor(Math.random() * packageSamResponses.length);
 
-var samReply = packageSamResponses[Math.floor(Math.random() * packageSamResponses.length)];
+    if (randomNumber === previousRandomNum) {
+        randomNumber = randomNumber === 0 ? (randomNumber + 1) : (randomNumber - 1);
+    }
+
+    previousRandomNum = randomNumber;
+
+    return arrayOfResponses[randomNumber];
+};
 
 var client = new Twitter({
     consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -32,7 +42,7 @@ module.exports = {
     handler: function(req, reply){
         client.stream('statuses/filter', {track: 'PackageSam'}, function(stream) {
             stream.on('data', function(tweet) {
-                client.post('statuses/update', {status: samReply}, function(error, tweet, response) {
+                client.post('statuses/update', {status: samReply(packageSamResponses)}, function(error, tweet, response) {
                     if (error) throw error;
                     console.log(tweet); // Tweet body.
                     console.log(response); // Raw response object.
