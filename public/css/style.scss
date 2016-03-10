@@ -1,5 +1,13 @@
 body {
-	background-color: #FFFFFF;
+	//background-color: #FFFFFF;
+	margin: 0;
+    background-image: url("/image/forest2.jpg");
+    background-position: 0px 0px;
+}
+
+
+* {
+	  font: bold 14px/18px Helvetica, Arial, sans-serif;
 }
 
 /* STYLE FOR /HOME.HTML */
@@ -24,7 +32,7 @@ footer, .container-login:after, .container-home:after {
 
 }
 footer {
-   background: red;
+   background: #1b95e0;
    padding   : 2em;
    margin-top: 2.5em;
 
@@ -33,11 +41,69 @@ footer {
      }
    }
 
+.loginh1 {
+	margin: 0;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    margin-right: -50%;
+	font-size: 3em;
+	color: white;
+    transform: translate(-50%, -50%)
+}
+
+.homeh1 {
+	margin: 0;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    margin-right: -50%;
+	font-size: 2em;
+    transform: translate(-50%, -50%)
+}
+
+#login-button {
+    position: absolute;
+    top: 57%;
+    left: 50%;
+	background-color: #1b95e0;
+	font-weight: normal;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	transition-duration: 0.4s;
+	border: none;
+	color: white;
+    transform: translate(-50%, -50%)
+}
+
+#login-button:hover {
+	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.send-tweet {
+	position: absolute;
+    top: 19%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+
 /* END STYLE /HOME.HTML */
 
 /* START RESP GRID SYSTEM */
 /*  SECTIONS  */
-.container-login, .container-home {
+.container-login {
+	clear: both;
+	padding: 0px;
+	margin: 0px;
+}
+
+.container-home {
 	clear: both;
 	padding: 0px;
 	margin: 0px;
