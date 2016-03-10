@@ -37,6 +37,7 @@ var oauth = {
 
 var oauthToken = '';
 var oauthTokenSecret = '';
+var checkingAccessToken = "";
 
 server.connection({
     port: port
@@ -56,14 +57,15 @@ server.register(plugins, function(err) {
             path: '/',
             method: 'GET',
             handler: function(req, reply){
-                if (!(req.state.request_token && req.state.access_token)) {
+                if (checkingAccessToken !== req.state.access_token) {
+                    console.log('unboomtastic');
                     // console.log(req.state.access_token, "access_token number 1");
                     request.post({url: requestTokenUrl, oauth: oauth}, function(err, r, body) {
                         var reqData = querystring.parse(body);
                         oauthToken = reqData.oauth_token;
                         oauthTokenSecret = reqData.oauth_token_secret;
                         var uri = 'https://api.twitter.com/oauth/authenticate?' + 'oauth_token='+oauthToken;
-                        //querystring.stringify({oauth_token: oauthToken});
+                        //querystring.stringify({oauth_token: oauthToken}); <-- will use this if we have more than 1 key
                         reply.view('login', {uri:uri}).state('request_token', oauthToken);
                     });
                 }
@@ -87,12 +89,9 @@ server.register(plugins, function(err) {
                 request.post({url: accessTokenUrl, oauth: oauth}, function(e, r, body) {
                     var authenticatedData = querystring.parse(body);
                     console.log(authenticatedData);
-                    // console.log(authenticatedData.oauth_token, authenticatedData.oauth_token_secret, '$$$$$$$$$$');
-
-                    // not 100% sure what we need here right now, so I redirected to home for now
-                    // we should figure out json web tokens first!
                     var accessToken = authenticatedData.oauth_token;
-                    reply.redirect('home').state('access_token', accessToken);
+                    checkingAccessToken = accessToken;
+                    reply.redirect('home').state('access_token', jwt.sign(secret, accessToken));
                 });
             }
         },
