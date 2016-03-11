@@ -7,7 +7,34 @@
 
 ## How to access Sam's Package
 
- `git clone` this repo and `npm install`. Run the server with `npm start` then
+#### Step 1
+
+ `git clone` this repo, cd into the file and `npm install`.
+
+#### Step 2
+
+###### Set up your own Twitter app
+
+Start by going to https://apps.twitter.com/ and if you haven't already sign in with Twitter. Once logged in click the button `Create New App`.
+
+Fill out the `Application Details` and agree to the terms and conditions and you will be ready to create your very own Twitter app.
+
+Once the app has been created head over to the tab called `Keys and Access Tokens`. You will need to generate the tokens for your application. Once this is done you will have access to the
+* `Consumer Key`
+* `Consumer Secret`
+* `Access Tokens`
+* `Access Token Secret`
+
+These will need to be added to a config.env file, which you will also have to create. They will need to be in this format :
+
+* `TWITTER_CONSUMER_KEY` = `Consumer Key`
+* `TWITTER_CONSUMER_SECRET` = `Consumer Secret`
+* `TWITTER_ACCESS_TOKEN_KEY` = `Access Tokens`
+* `TWITTER_ACCESS_TOKEN_SECRET` = `Access Token Secret`
+
+#### Step 3
+
+ Run the server with `npm start` then
  go to `http://localhost:3000`. Sign in with Twitter and tweet away to
  [@PackageSam](https://twitter.com/PackageSam)! Wait around a bit and he'll
  tweet you back :smile:
